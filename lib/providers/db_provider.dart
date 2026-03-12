@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
+import 'package:qr_scan/models/scan_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -38,5 +39,32 @@ class DBProvider {
         )
       ''');
     });
+  }
+
+  // Devuelve un Future<int> que será la ID del registro que se ha insertado
+  Future<int> inserRawScan(ScanModel scanNuevo) async {
+    // Se obtienen las propiedades del objeto
+    final id = scanNuevo.id;
+    final tipus = scanNuevo.tipus;
+    final valor = scanNuevo.valor;
+
+    // Esperamos que la DB esté lista
+    final db = await database;
+
+    // Sentencia SQL
+    final res = await db.rawInsert('''
+      INSERT INTO Scans(id, tipus, valor)
+        VALUES ($id, $tipus, $valor)
+      ''');
+    return res; // Devuelve el ID del último registro insertado
+  }
+
+  // Hace lo mismo pero utilizando la librería sqflite.
+  Future<int> insertScan(ScanModel scanNuevo) async {
+    final db = await database;
+    //Pide el nombre de la tabla scan y un mapa
+    final res = await db.insert('Scans', scanNuevo.toMap());
+    print(res);
+    return res;
   }
 }

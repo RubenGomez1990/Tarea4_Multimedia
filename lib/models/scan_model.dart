@@ -19,18 +19,17 @@ class ScanModel {
     }
   }
 
-  factory ScanModel.fromRawJson(String str) =>
-      ScanModel.fromJson(json.decode(str));
+  factory ScanModel.fromJson(String str) => ScanModel.fromMap(json.decode(str));
 
-  String toRawJson() => json.encode(toJson());
+  String toJson() => json.encode(toMap());
 
-  factory ScanModel.fromJson(Map<String, dynamic> json) => ScanModel(
+  factory ScanModel.fromMap(Map<String, dynamic> json) => ScanModel(
         id: json["id"],
         tipus: json["tipus"],
         valor: json["valor"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toMap() => {
         "id": id,
         "tipus": tipus,
         "valor": valor,

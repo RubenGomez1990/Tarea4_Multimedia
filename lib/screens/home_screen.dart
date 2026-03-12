@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qr_scan/models/scan_model.dart';
 import 'package:qr_scan/providers/db_provider.dart';
 import 'package:qr_scan/providers/ui_provider.dart';
 import 'package:qr_scan/screens/screens.dart';
@@ -33,13 +34,16 @@ class _HomeScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final uiProvider =
-        Provider.of<UIProvider>(context); // Instancia de UIProvider
+    final uiProvider = Provider.of<UIProvider>(
+        context); // Instancia de UIProvider. Al no poner listen:false se redibujará cada vez que haya un cambio en el menuOpt
     final currentIndex = uiProvider
-        .selectedMenuOpt; // Como tenemos un index establecido para cada caso del Switch de la homescreen, recibirá con su provider el index del botón seleccionado
+        .selectedMenuOpt; // Como tenemos un index establecido para cada caso del Switch de la homescreen, recibirá con su provider el index del botón seleccionado.
 
     // Creación temporal de la BBDD
     DBProvider.db.database;
+    ScanModel scanNuevo = ScanModel(
+        valor: 'https://pasucasesnovescipf.cat'); // Scanmodel de prueba
+    DBProvider.db.insertScan(scanNuevo); // Inserta el scanmodel
     switch (currentIndex) {
       case 0:
         return MapasScreen();
