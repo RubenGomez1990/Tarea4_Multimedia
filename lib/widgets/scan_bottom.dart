@@ -21,6 +21,10 @@ class ScanButton extends StatelessWidget {
             listen: false); // Instancia de provider para ScanList
         scanListProvider.scanNuevo(
             barcodeScanRes); // Llamamos al método que hemos creado antes en scanListProvider.
+
+        // Simulamos lectura de un código QR
+        String barcodeScanRes1 = 'geo:wef';
+        scanListProvider.scanNuevo(barcodeScanRes1);
       },
     );
   }

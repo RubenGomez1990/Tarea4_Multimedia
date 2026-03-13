@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qr_scan/models/scan_model.dart';
-import 'package:qr_scan/providers/db_provider.dart';
 import 'package:qr_scan/providers/scan_list_provider.dart';
 import 'package:qr_scan/providers/ui_provider.dart';
 import 'package:qr_scan/screens/screens.dart';
@@ -14,17 +12,20 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Historial'),
+        title: const Text('Historial'),
         actions: [
           IconButton(
-            icon: Icon(Icons.delete_forever),
-            onPressed: () {},
+            icon: const Icon(Icons.delete_forever),
+            onPressed: () {
+              Provider.of<ScanListProvider>(context, listen: false)
+                  .esborraTots(); // Instancia del ScanListProvider para llamarlo en el botón
+            },
           )
         ],
       ),
-      body: _HomeScreenBody(),
-      bottomNavigationBar: CustomNavigationBar(),
-      floatingActionButton: ScanButton(),
+      body: const _HomeScreenBody(),
+      bottomNavigationBar: const CustomNavigationBar(),
+      floatingActionButton: const ScanButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
@@ -39,19 +40,21 @@ class _HomeScreenBody extends StatelessWidget {
         context); // Instancia de UIProvider. Al no poner listen:false se redibujará cada vez que haya un cambio en el menuOpt
     final currentIndex = uiProvider
         .selectedMenuOpt; // Como tenemos un index establecido para cada caso del Switch de la homescreen, recibirá con su provider el index del botón seleccionado.
-    final scanListProvider = Provider.of<ScanListProvider>(context);
+
+    final scanListProvider =
+        Provider.of<ScanListProvider>(context, listen: false);
     switch (currentIndex) {
       case 0:
         scanListProvider.carregaScansPerTipus('geo');
-        return MapasScreen();
+        return const MapasScreen();
 
       case 1:
         scanListProvider.carregaScansPerTipus('http');
-        return DireccionsScreen();
+        return const DireccionsScreen();
 
       default:
         scanListProvider.carregaScansPerTipus('geo');
-        return MapasScreen();
+        return const MapasScreen();
     }
   }
 }

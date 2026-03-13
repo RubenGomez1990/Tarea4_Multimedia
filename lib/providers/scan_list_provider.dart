@@ -18,7 +18,7 @@ class ScanListProvider extends ChangeNotifier {
 
     // Solo se añadirá a la pestaña abierta si el tipo del escaneo y el tipo seleccionado coinciden.
     if (scanNuevo.tipus == tipusSeleccionat) {
-      this.scans.add(scanNuevo);
+      scans.add(scanNuevo);
       notifyListeners();
     }
     return scanNuevo; // devolvemos el scan para su uso
@@ -36,10 +36,10 @@ class ScanListProvider extends ChangeNotifier {
   // Carga los scans por tipo
   Future<void> carregaScansPerTipus(String tipus) async {
     final scansTipus = await DBProvider.db.getScanByTipus(tipus);
-    this.scans = [
+    scans = [
       ...scansTipus
     ]; // Actualiza la lista actual por la lista con filtrados.
-    this.tipusSeleccionat =
+    tipusSeleccionat =
         tipus; // Importante: actualizamos el tipo seleccionado para que muestre la lista correcta.
     notifyListeners();
   }
@@ -54,7 +54,7 @@ class ScanListProvider extends ChangeNotifier {
   // Borra un registro específico
   Future<void> esborraPerId(int id) async {
     await DBProvider.db.deleteById(id);
-    this.scans.removeWhere((scan) =>
+    scans.removeWhere((scan) =>
         scan.id ==
         id); // Utilizamos removeWhere (como si fuera la funcion WHERE, para borrar el scan cuya scan.id es igual a la id por parámetro)
     notifyListeners();

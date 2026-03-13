@@ -15,9 +15,8 @@ class DBProvider {
 
   // Getter asíncrono para interactuar con la BBDD
   Future<Database> get database async {
-    if (_database == null)
-      _database =
-          await initDB(); // Si está inicializada la devuelve si no, espera a que se inicialice.
+    _database ??= // Usamos ??= si _database es null (variable a la izquierda), espera a initDB y asigna resultado de la derecha. Si no, ignora el initDB()
+        await initDB(); // Si está inicializada la devuelve si no, espera a que se inicialice.
     return _database!;
   }
 
@@ -26,7 +25,6 @@ class DBProvider {
     // Obtener el path
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     final path = join(documentsDirectory.path, 'Scans.db');
-    print(path);
 
     // Creación de la BBDD. La primera vez la creará y las siguientes obtendrá la instancia creada según la version.
     return await openDatabase(path, version: 1, onOpen: (db) {},
@@ -64,7 +62,6 @@ class DBProvider {
     final db = await database;
     //Pide el nombre de la tabla scan y un mapa
     final res = await db.insert('Scans', scanNuevo.toMap());
-    print(res);
     return res;
   }
 

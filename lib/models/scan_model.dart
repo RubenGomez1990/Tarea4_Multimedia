@@ -12,10 +12,10 @@ class ScanModel {
     required this.valor,
   }) {
     // Determina el valor del Scan y determina de que tipo es.
-    if (this.valor.contains('http')) {
-      this.tipus = 'http';
+    if (valor.contains('http')) {
+      tipus = 'http';
     } else {
-      this.tipus = 'geo';
+      tipus = 'geo';
     }
   }
 

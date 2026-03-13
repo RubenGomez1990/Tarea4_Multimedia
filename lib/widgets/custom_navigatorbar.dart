@@ -4,6 +4,8 @@ import 'package:qr_scan/providers/ui_provider.dart';
 
 // Modifica la barra "insivible" donde está mapa y direcciones e ilumina la opción seleccionada.
 class CustomNavigationBar extends StatelessWidget {
+  const CustomNavigationBar({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final uiProvider = Provider.of<UIProvider>(
@@ -16,7 +18,7 @@ class CustomNavigationBar extends StatelessWidget {
             i, // Método "on tap" con el ratón selecciona la opción de menu con un int index = i según el botón que pulses.
         elevation: 0,
         currentIndex: currentIndex,
-        items: <BottomNavigationBarItem>[
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.map),
             label: 'Mapa',

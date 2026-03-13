@@ -6,6 +6,6 @@ class DireccionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScanTiles(tipus: 'http');
+    return const ScanTiles(tipus: 'http');
   }
 }
