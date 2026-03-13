@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_scan/providers/scan_list_provider.dart';
+import 'package:qr_scan/utils/utils.dart';
 
 // Este widget pinta tanto la lista de mapas como de direcciones http
 class ScanTiles extends StatelessWidget {
@@ -50,8 +51,10 @@ class ScanTiles extends StatelessWidget {
               .id
               .toString()), // de la posición del scan, coge su ID (int) y conviertelo a string
           trailing: const Icon(Icons.keyboard_arrow_right, color: Colors.grey),
-          onTap:
-              () {}, // Lo que pasará al hacer "click" en el elemento de la lista.
+          // Lo que pasará al hacer "click" en el elemento de la lista.
+          onTap: () {
+            launchURL(context, scans[index]); //Llamamos al metodo
+          },
         ),
       ),
     );
