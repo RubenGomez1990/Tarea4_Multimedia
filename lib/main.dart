@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qr_scan/providers/scan_list_provider.dart';
 import 'package:qr_scan/providers/ui_provider.dart';
 import 'package:qr_scan/screens/home_screen.dart';
 import 'package:qr_scan/screens/mapa_screen.dart';
@@ -8,7 +9,8 @@ void main() => runApp(MultiProvider(
       // Permite inyectar varios objetos en el árbol de widgets de forma organizada.
       child: MyApp(),
       providers: [
-        ChangeNotifierProvider(create: (_) => UIProvider())
+        ChangeNotifierProvider(create: (_) => UIProvider()),
+        ChangeNotifierProvider(create: (_) => ScanListProvider())
       ], // Llamamos a la instancia de UIProvider con ChangeNotifierProvider para cuando hay cambios en la pantalla
     ));
 
