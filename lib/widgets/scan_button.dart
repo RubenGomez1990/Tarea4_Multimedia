@@ -16,7 +16,8 @@ class ScanButton extends StatelessWidget {
       ),
       onPressed: () {
         // Simulamos lectura de un código QR
-        String barcodeScanRes = 'https://paucasesnovescifp.cat/';
+        String barcodeScanRes = 'geo:39.7260888,2.9113035';
+        //String barcodeScanRes = 'https://paucasesnovescifp.cat/';
 
         // Buscamos el proveedor en nuestro arbol de Widgets
         final scanListProvider = Provider.of<ScanListProvider>(context,
