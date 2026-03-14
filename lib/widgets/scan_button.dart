@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_scan/models/scan_model.dart';
 import 'package:qr_scan/providers/scan_list_provider.dart';
+import 'package:qr_scan/screens/scanner_screen.dart';
 import 'package:qr_scan/utils/utils.dart';
 
 class ScanButton extends StatelessWidget {
@@ -14,17 +15,31 @@ class ScanButton extends StatelessWidget {
       child: const Icon(
         Icons.filter_center_focus,
       ),
-      onPressed: () {
-        // Simulamos lectura de un código QR
-        String barcodeScanRes = 'geo:39.7260888,2.9113035';
-        //String barcodeScanRes = 'https://paucasesnovescifp.cat/';
+      // Añadimos 'async' porque vamos a esperar la respuesta de la cámara
+      onPressed: () async {
+        // 1. Abrimos la pantalla del escáner y ESPERAMOS (await) lo que nos devuelva
+        final String? barcodeScanRes = await Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const QRScannerScreen()),
+        );
 
-        // Buscamos el proveedor en nuestro arbol de Widgets
-        final scanListProvider = Provider.of<ScanListProvider>(context,
-            listen: false); // Instancia de provider para ScanList
-        ScanModel scanNuevo = ScanModel(valor: barcodeScanRes);
-        scanListProvider.scanNuevo(
-            barcodeScanRes); // Llamamos al método que hemos creado antes en scanListProvider.
+        // 2. Si el usuario le da a volver atrás sin escanear nada, barcodeScanRes será null.
+        // En ese caso, cortamos la ejecución para que no de error.
+        if (barcodeScanRes == null) {
+          return;
+        }
+
+        // 3. Buscamos el proveedor en nuestro árbol de Widgets (listen: false siempre en botones)
+        final scanListProvider =
+            Provider.of<ScanListProvider>(context, listen: false);
+
+        // 4. Llamamos al método que inserta en la BD.
+        // OJO AQUÍ: Le ponemos 'await' para que termine de guardarlo y nos devuelva
+        // el objeto ScanModel completo (¡ya con su ID autogenerado!).
+        final ScanModel scanNuevo =
+            await scanListProvider.scanNuevo(barcodeScanRes);
+
+        // 5. Lanzamos la acción (abrir navegador o mapa) usando la utilidad que ya tenías
         launchURL(context, scanNuevo);
       },
     );
