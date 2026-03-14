@@ -42,9 +42,11 @@ class _MapaScreenState extends State<MapaScreen> {
                 true, // Muestra nuestra ubicación en un punto azul
             myLocationButtonEnabled: false,
             zoomControlsEnabled:
-                false, // Ocultamos los botones +/- (es más intuitivo pellizcar la pantalla)
+                true, // Ocultamos los botones +/- (es más intuitivo pellizcar la pantalla)
             mapType: mapType, // Botón para cambiar de tipo de mapa
             markers: markers,
+            trafficEnabled: true, // Funcionalidad extra: tráfico
+            buildingsEnabled: true, // Funcionalidad extra: edificios en 3D
             initialCameraPosition: puntInicial,
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
@@ -148,5 +150,3 @@ class _MapaScreenState extends State<MapaScreen> {
     );
   }
 }
-
-//TODO: barra de busqueda, botón de volver atrás, botón de centrar en posición, boton cambiar capas.
